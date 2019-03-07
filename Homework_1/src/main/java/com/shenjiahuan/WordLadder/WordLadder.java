@@ -55,8 +55,7 @@ public class WordLadder {
         boolean found = false;
         while (!queue.isEmpty()) {
             ArrayList<String> ladder = queue.poll();
-            String elem;
-            elem = ladder.get(forward ? ladder.size() - 1: 0);
+            String elem = ladder.get(forward ? ladder.size() - 1: 0);
             if (path1.containsKey(elem)) {
                 result = forward ? combine(ladder, path1.get(elem)) : combine(path1.get(elem), ladder);
                 found = true;

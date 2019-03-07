@@ -31,13 +31,8 @@ public class WordLadder {
             for (int j = i + 1; j < wordsNum; ++j) {
                 if (isNear(sameLengthWords.get(i), sameLengthWords.get(j))) {
                     String word1 = sameLengthWords.get(i), word2 = sameLengthWords.get(j);
-                    ArrayList<String> val1 = new ArrayList<>(), val2 = new ArrayList<>();
-                    if (near.containsKey(word1)) {
-                        val1 = near.get(word1);
-                    }
-                    if (near.containsKey(word2)) {
-                        val2 = near.get(word2);
-                    }
+                    ArrayList<String> val1 = near.containsKey(word1) ? near.get(word1) : new ArrayList<>();
+                    ArrayList<String> val2 = near.containsKey(word2) ? near.get(word2) : new ArrayList<>();
                     val1.add(word2);
                     val2.add(word1);
                     near.put(word1, val1);

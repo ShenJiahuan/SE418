@@ -58,11 +58,7 @@ public class WordLadder {
             String elem;
             elem = ladder.get(forward ? ladder.size() - 1: 0);
             if (path1.containsKey(elem)) {
-                if (forward) {
-                    result = combine(ladder, path1.get(elem));
-                } else {
-                    result = combine(path1.get(elem), ladder);
-                }
+                result = forward ? combine(ladder, path1.get(elem)) : combine(path1.get(elem), ladder);
                 found = true;
                 break;
             }
@@ -72,11 +68,8 @@ public class WordLadder {
             for (String word : near.get(elem)) {
                 if (!ladder.contains(word)) {
                     ArrayList<String> newLadder = new ArrayList<>(ladder);
-                    if (forward) {
-                        newLadder.add(word);
-                    } else {
-                        newLadder.add(0, word);
-                    }
+                    int pos = forward ? newLadder.size() : 0;
+                    newLadder.add(pos, word);
                     nextQueue.add(newLadder);
                     if (!path2.containsKey(word)) {
                         path2.put(word, newLadder);

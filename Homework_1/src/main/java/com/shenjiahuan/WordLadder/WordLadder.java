@@ -62,11 +62,7 @@ public class WordLadder {
         while (!queue.isEmpty()) {
             ArrayList<String> ladder = queue.poll();
             String elem;
-            if (forward) {
-                elem = ladder.get(ladder.size() - 1);
-            } else {
-                elem = ladder.get(0);
-            }
+            elem = ladder.get(forward ? ladder.size() - 1: 0);
             if (path1.containsKey(elem)) {
                 if (forward) {
                     result = combine(ladder, path1.get(elem));

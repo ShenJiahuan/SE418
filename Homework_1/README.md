@@ -18,4 +18,4 @@ The project can be built with gradle in the following way. It will also run unit
 ```
 You can follow instructions by the program. 
 
-*Note: Filename should either be SmallDict.txt or EnglishWords.txt at this stage.*
+*Note: Filename should be either SmallDict.txt or EnglishWords.txt at this stage.*

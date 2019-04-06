@@ -15,7 +15,7 @@ public class WordLadderController {
     @PostConstruct
     private void init() {
         try {
-            this.wordLadder = new WordLadder("/static/EnglishWord.txt");
+            this.wordLadder = new WordLadder("/static/EnglishWords.txt");
         } catch (IOException | NullPointerException ex) {
             this.wordLadder = null;
         }

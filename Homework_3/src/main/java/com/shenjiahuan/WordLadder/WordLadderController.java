@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class WordLadderController {
-    private static final String template = "Hello";
-    private final AtomicLong counter = new AtomicLong();
-
     public WordLadderController() {
     }
 

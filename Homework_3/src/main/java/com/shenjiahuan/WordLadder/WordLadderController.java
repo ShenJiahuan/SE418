@@ -14,7 +14,6 @@ public class WordLadderController {
 
     @PostConstruct
     private void init() {
-        System.out.println("Init");
         try {
             this.wordLadder = new WordLadder("/static/EnglishWords.txt");
         } catch (IOException ex) {

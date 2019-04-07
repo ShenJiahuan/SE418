@@ -33,8 +33,14 @@ public class WordladderApplicationTests {
 
     @Test
     public void shouldHaveSuccessStatus() throws Exception {
-        this.mockMvc.perform(get("/wordladder?from=hello&to=world")).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(get("/wordladder?from=hello&to=world")).andExpect(status().isOk())
                 .andExpect(content().string(containsString("\"status\":0")));
+    }
+
+    @Test
+    public void shouldHaveNoLadderStatus() throws Exception {
+        this.mockMvc.perform(get("/wordladder?from=success&to=fail")).andExpect(status().isOk())
+                .andExpect(content().string(containsString("\"status\":-1")));
     }
 
 }

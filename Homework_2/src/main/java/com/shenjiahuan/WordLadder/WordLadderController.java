@@ -3,8 +3,6 @@ package com.shenjiahuan.WordLadder;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

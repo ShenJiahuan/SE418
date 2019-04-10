@@ -21,7 +21,7 @@ public class WordLadderController {
         }
     }
 
-    @RequestMapping({"/wordladder"})
+    @RequestMapping({"/wordladders"})
     public WordLadderResult wordLadder(@RequestParam("from") String from, @RequestParam("to") String to) {
         ArrayList<String> result = null;
         int status = 0;

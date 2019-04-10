@@ -81,7 +81,7 @@ public class WordladderApplicationTests {
                                 .param("from", "hello")
                                 .param("to", "world"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("\"status\":0")));
+                .andExpect(content().json("{'status':0}"));
     }
 
     @Test
@@ -91,7 +91,15 @@ public class WordladderApplicationTests {
                                 .param("from", "successful")
                                 .param("to", "fail"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("\"status\":-1")));
+                .andExpect(content().json("{'status':-1}"));
+    }
+
+    @Test
+    @WithMockUser
+    public void accessWithoutParameters() throws Exception {
+        this.mockMvc.perform(get("/wordladders"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{'status':-3}"));
     }
 
 }

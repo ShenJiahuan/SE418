@@ -2,6 +2,9 @@ package com.shenjiahuan.WordLadder;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,9 +25,14 @@ public class WordLadderController {
     }
 
     @RequestMapping({"/wordladders"})
-    public WordLadderResult wordLadder(@RequestParam("from") String from, @RequestParam("to") String to) {
+    public WordLadderResult wordLadder(@RequestParam(value = "from", required = false) String from, @RequestParam(value = "to", required = false) String to) {
         ArrayList<String> result = null;
         int status = 0;
+
+        if (from == null || to == null) {
+            status = -3;
+            return new WordLadderResult(result, status);
+        }
 
         try {
             result = this.wordLadder.get(from, to);

@@ -5,6 +5,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
@@ -47,41 +48,33 @@ public class WordladderApplicationTests {
 
     @Test
     public void loginWithValidUserThenAuthenticated() throws Exception {
-        FormLoginRequestBuilder login = formLogin()
-                .user("SE418")
-                .password("SE418");
-
-        mockMvc.perform(login)
-                .andExpect(authenticated().withUsername("SE418"));
+        this.mockMvc.perform(post("/login")
+                            .param("username", "SE418")
+                            .param("password", "SE418"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{'success':true}"));
     }
 
     @Test
     public void loginWithInvalidUserThenUnauthenticated() throws Exception {
-        FormLoginRequestBuilder login = formLogin()
-                .user("invalid")
-                .password("invalidpassword");
-
-        mockMvc.perform(login)
-                .andExpect(unauthenticated());
+        this.mockMvc.perform(post("/login")
+                .param("username", "invalid")
+                .param("password", "invalidpassword"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{'success':false}"));
     }
 
     @Test
-    public void accessSecuredResourceUnauthenticatedThenRedirectsToLogin() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("**/login"));
+    public void accessSecuredResourceUnauthenticatedThenReturn401() throws Exception {
+        this.mockMvc.perform(get("/wordladders")
+                .param("from", "hello")
+                .param("to", "world"))
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
     @WithMockUser
     public void accessSecuredResourceAuthenticatedThenOk() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    @WithMockUser
-    public void shouldHaveSuccessStatus() throws Exception {
         this.mockMvc.perform(get("/wordladders")
                                 .param("from", "hello")
                                 .param("to", "world"))

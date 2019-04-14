@@ -51,7 +51,7 @@ public class WordladderApplicationTests {
     }
 
     @Test
-    public void accessSecuredResourceUnauthenticatedThenReturn401() throws Exception {
+    public void accessWordLadderUnauthenticatedThenReturn401() throws Exception {
         this.mockMvc.perform(get("/wordladders")
                 .param("from", "hello")
                 .param("to", "world"))
@@ -60,7 +60,7 @@ public class WordladderApplicationTests {
 
     @Test
     @WithMockUser
-    public void accessSecuredResourceAuthenticatedThenOk() throws Exception {
+    public void accessWordLadderAuthenticatedThenOk() throws Exception {
         this.mockMvc.perform(get("/wordladders")
                                 .param("from", "hello")
                                 .param("to", "world"))

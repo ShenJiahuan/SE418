@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -21,6 +22,13 @@ public class ActuatorTest {
     private MockMvc mockMvc;
 
     @Test
+    public void accessActuatorUnauthenticatedThenReturn401() throws Exception {
+        this.mockMvc.perform(get("/actuator/health"))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    @WithMockUser
     public void testActuatorStatus() throws Exception {
         this.mockMvc.perform(get("/actuator/health"))
                 .andExpect(status().isOk())
@@ -28,6 +36,7 @@ public class ActuatorTest {
     }
 
     @Test
+    @WithMockUser
     public void testActuatorInfo() throws Exception {
         this.mockMvc.perform(get("/actuator/info"))
                 .andExpect(status().isOk())

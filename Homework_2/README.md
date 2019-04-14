@@ -10,14 +10,13 @@
 ```
 
 ## Usage
-It will listen on <http://localhost:9000/> by default.  
+It will listen on <http://localhost:8080/> by default.  
 
-Wordladder application requires login before you can use. You will be redirected to <http://localhost:9000/login> to log in. At this stage, username and password are both 'SE418'.  
-You are also welcomed to use tools like 'postman' to send HTTP requests, and in this way, you need to *POST* to that url, with ```{"username":"SE418", "password": "SE418"}``` in request body.  
+Wordladder application requires login before you can use. You will receive HTTP status 401 when unauthorized. At this stage, username and password are both 'SE418'.  
+You can use tools like 'postman' to send HTTP requests, and in this way, you need to *POST* to that url, with ```{"username":"SE418", "password": "SE418"}``` in request body.  
 
 After that, if you wish to get a wordladder from 'hello' to 'world', you can visit <http://localhost:8080/wordladders?from=hello&to=world>.  
-Still, you are welcomed to use 'postman' to send GET requests.  
-And if nothing goes wrong, you will receive response like this:
+If nothing goes wrong, you will receive response like this:
 ```
 {
     "result": [
@@ -42,4 +41,4 @@ And if nothing goes wrong, you will receive response like this:
 -3 | Request format incorrect
 
 ## Spring Actuator
-You can visit <http://localhost:9001/actuator/health> to monitor the status of the Spring Application.
+You can visit <http://localhost:8080/actuator/health> to monitor the status of the Spring Application. Notice that this also requires login.

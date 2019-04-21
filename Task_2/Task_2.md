@@ -14,7 +14,8 @@
 1. Use Postman to make post request to <http://localhost:8080/login> with username and password, and retrieve the returned JSESSIONID.
 2. Send concurrent HTTP requests to <http://localhost:8080/wordladders?from=hello&to=world> using ApacheBnech. The number of cuncurrent requests will be 1, 2, 4, 8, 16. The command looks like:
 ```
-ab -n 1000 -c 16 -H "Cookie: JSESSIONID=0F9B30A747AC79DBDACDB4C9BE5CF1EC" http://localhost:8080/wordladders\?from\=hello\&to\=world```
+ab -n 1000 -c 16 -H "Cookie: JSESSIONID=0F9B30A747AC79DBDACDB4C9BE5CF1EC" http://localhost:8080/wordladders\?from\=hello\&to\=world
+```
 3. Monitor resource usage in Prometheus. Use ```process_cpu_usage``` to monitor CPU usage and ```jvm_memory_used_bytes``` to monitor memory usage.
 
 ## Result

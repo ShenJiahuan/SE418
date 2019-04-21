@@ -7,7 +7,6 @@ import java.util.*;
 
 public class WordLadder {
     private List<String> words = new ArrayList<>();
-    private HashMap<String, ArrayList<String>> near;
     public WordLadder(String filename) throws java.io.IOException, NullPointerException {
         InputStream fin = WordLadder.class.getResourceAsStream(filename);
         String path = getClass().getResource(filename).getPath();
@@ -20,7 +19,8 @@ public class WordLadder {
         }
     }
 
-    private void loadNear(String src, String dest) {
+    private HashMap<String, ArrayList<String>> loadNear(String src, String dest) {
+        HashMap<String, ArrayList<String>> near;
         List<String> sameLengthWords = new ArrayList<>();
         for (String word : words) {
             if (word.length() == src.length()) {
@@ -42,6 +42,7 @@ public class WordLadder {
                 }
             }
         }
+        return near;
     }
 
     static ArrayList<String> combine(ArrayList<String> a, ArrayList<String> b) {
@@ -51,7 +52,7 @@ public class WordLadder {
         return result;
     }
 
-    private Object[] BFS(boolean forward, LinkedList<ArrayList<String>> queue, HashMap<String, ArrayList<String>> path1, HashMap<String, ArrayList<String>> path2) {
+    private Object[] BFS(boolean forward, LinkedList<ArrayList<String>> queue, HashMap<String, ArrayList<String>> path1, HashMap<String, ArrayList<String>> path2, HashMap<String, ArrayList<String>> near) {
         LinkedList<ArrayList<String>> nextQueue = new LinkedList<>();
         ArrayList<String> result = null;
         boolean found = false;
@@ -83,10 +84,11 @@ public class WordLadder {
 
     @SuppressWarnings("unchecked")
     public ArrayList<String> get(String src, String dest) {
+        HashMap<String, ArrayList<String>> near;
         if (src.length() != dest.length()) {
             return null;
         }
-        loadNear(src, dest);
+        near = loadNear(src, dest);
         LinkedList<ArrayList<String>> queue1 = new LinkedList<>(), queue2 = new LinkedList<>();
         HashMap<String, ArrayList<String>> beginToElem = new HashMap<>();
         HashMap<String, ArrayList<String>> elemToEnd = new HashMap<>();
@@ -100,13 +102,13 @@ public class WordLadder {
         queue1.add(srcArray);
         queue2.add(destArray);
         while (!queue1.isEmpty() && !queue2.isEmpty()) {
-            Object[] ret1 = BFS(true, queue1, elemToEnd, beginToElem);
+            Object[] ret1 = BFS(true, queue1, elemToEnd, beginToElem, near);
             if ((boolean)ret1[0]) {
                 return (ArrayList<String>) ret1[2];
             } else {
                 queue1 = (LinkedList<ArrayList<String>>) ret1[1];
             }
-            Object[] ret2 = BFS(false, queue2, beginToElem, elemToEnd);
+            Object[] ret2 = BFS(false, queue2, beginToElem, elemToEnd, near);
             if ((boolean)ret2[0]) {
                 return (ArrayList<String>) ret2[2];
             } else {

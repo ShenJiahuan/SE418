@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 class TokenAuthenticationService {
-    private static final long EXPIRATIONTIME = 86400;
+    private static final long EXPIRATIONTIME = 86400000;
     private static final String SECRET = "SE418_password";
     private static final String TOKEN_PREFIX = "Bearer";
     private static final String HEADER_STRING = "Authorization";

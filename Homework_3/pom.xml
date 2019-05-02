@@ -8,9 +8,10 @@
         <version>2.1.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+    <packaging>pom</packaging>
     <groupId>com.shenjiahuan</groupId>
     <artifactId>wordladder</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0.RELEASE</version>
     <name>wordladder</name>
     <description>Demo project for Spring Boot</description>
 
@@ -39,5 +40,10 @@
             </plugin>
         </plugins>
     </build>
+
+    <modules>
+        <module>login</module>
+        <module>play</module>
+    </modules>
 
 </project>

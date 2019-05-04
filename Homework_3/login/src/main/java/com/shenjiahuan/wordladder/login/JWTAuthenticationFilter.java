@@ -1,4 +1,4 @@
-package com.shenjiahuan.wordladder.play;
+package com.shenjiahuan.wordladder.login;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

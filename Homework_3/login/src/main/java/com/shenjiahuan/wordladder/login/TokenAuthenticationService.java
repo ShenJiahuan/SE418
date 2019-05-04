@@ -32,6 +32,30 @@ class TokenAuthenticationService {
         }
     }
 
+    static Authentication getAuthentication(HttpServletRequest request) {
+        String token = request.getHeader(HEADER_STRING);
+
+        try {
+            if (token != null) {
+                Claims claims = Jwts.parser()
+                        .setSigningKey(SECRET)
+                        .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+                        .getBody();
+
+                String user = claims.getSubject();
+
+                List<GrantedAuthority> authorities =  AuthorityUtils.commaSeparatedStringToAuthorityList((String) claims.get("authorities"));
+
+                return user != null ?
+                        new UsernamePasswordAuthenticationToken(user, null, authorities) :
+                        null;
+            }
+            return null;
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
     public static String createToken(String username) {
         String JWT = Jwts.builder()
                 .claim("authorities", "ROLE_USER")

@@ -25,29 +25,16 @@ public class PlayApplicationTests {
     @Autowired
     private MockMvc mockMvc;
 
-    public static String getToken() {
-        return TokenAuthenticationService.createToken("SE418");
-    }
-
     @Test
     public void contextLoads() throws Exception {
         assertThat(controller).isNotNull();
     }
 
     @Test
-    public void accessWordLadderUnauthenticatedThenReturn401() throws Exception {
-        this.mockMvc.perform(get("/wordladders")
-                .param("from", "hello")
-                .param("to", "world"))
-                .andExpect(status().is4xxClientError());
-    }
-
-    @Test
-    public void accessWordLadderAuthenticatedThenOk() throws Exception {
+    public void accessWordLadderThenOk() throws Exception {
         this.mockMvc.perform(get("/wordladders")
                                 .param("from", "hello")
-                                .param("to", "world")
-                                .header("Authorization", getToken()))
+                                .param("to", "world"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{'status':0}"));
     }
@@ -56,16 +43,14 @@ public class PlayApplicationTests {
     public void shouldHaveNoLadderStatus() throws Exception {
         this.mockMvc.perform(get("/wordladders")
                                 .param("from", "successful")
-                                .param("to", "fail")
-                                .header("Authorization", getToken()))
+                                .param("to", "fail"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{'status':-1}"));
     }
 
     @Test
     public void accessWithoutParameters() throws Exception {
-        this.mockMvc.perform(get("/wordladders")
-                                .header("Authorization", getToken()))
+        this.mockMvc.perform(get("/wordladders"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{'status':-3}"));
     }

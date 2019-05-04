@@ -1,6 +1,10 @@
 package com.shenjiahuan.wordladder.play;
 
+import org.apache.catalina.filters.RemoteAddrFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,22 +17,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UnauthorizedEntryPoint unauthorizedEntryPoint;
+    @Value("${gateway.ip}")
+    String gateway;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http
-            .exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint)
-                .and()
-            .csrf().
-                disable()
             .authorizeRequests()
                 .antMatchers("/actuator/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .addFilterBefore(new JWTAuthenticationFilter(),
-                        UsernamePasswordAuthenticationFilter.class);
+                .anyRequest().hasIpAddress(gateway)
+            .and()
+            .csrf().
+                disable();
     }
 }

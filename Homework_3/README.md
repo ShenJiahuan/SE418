@@ -18,11 +18,12 @@ docker pull shenjiahuan/wordladder-play
 ```
 ## Run
 ```$
-docker run -p 8080:8080 -p 9000:9000 -d shenjiahuan/wordladder-login --wordladder.ip=127.0.0.1 --wordladder.port=8081
-docker run -p 8081:8081 -p 9001:9001 -d shenjiahuan/wordladder-play --gateway.ip=127.0.0.1
+docker run -p 8080:8080 -p 9000:9000 -d shenjiahuan/wordladder-login --wordladder.ip=[wordladder-ip] --wordladder.port=8081
+docker run -p 8081:8081 -p 9001:9001 -d shenjiahuan/wordladder-play --gateway.ip=[gateway-ip]
 ```
 Port 8080 serves microservice login, 8081 serves microservice play, 9000 and 9001 are two ports which actuators listen.  
-Microservice play can only be accessed via IP address in parameter ```gateway.ip``` (Note: you cannot use localhost in stead of 127.0.0.1)
+Microservice play can only be accessed via IP address in parameter ```gateway.ip```  
+*Note: You must assure that two containers can access each other. One solution is to use global IP addresses (the most common scenario in deployment), and another is to use local ip addresses provided by docker, by default Docker create a subnet 172.17.0.1/16 and each container has an IP of this subnet.*
 
 ## Usage
 Wordladder application requires login before you can use. You will receive HTTP status 401 when unauthorized. At this stage, username and password are both 'SE418'.  

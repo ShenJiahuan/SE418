@@ -11,7 +11,7 @@ import java.util.List;
 public class WordLadder {
     private List<String> words = new ArrayList<>();
     public WordLadder(String filename) throws java.io.IOException, NullPointerException {
-        InputStream fin = getClass().getClassLoader().getResourceAsStream(filename);
+        InputStream fin = WordLadder.class.getResourceAsStream(filename);
         InputStreamReader reader = new InputStreamReader(fin);
         BufferedReader buffReader = new BufferedReader(reader);
 

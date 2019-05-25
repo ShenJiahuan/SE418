@@ -1,17 +1,25 @@
 package com.shenjiahuan.task4;
 
+
+import org.apache.log4j.Logger;
+
 import java.util.concurrent.FutureTask;
+import java.util.Date;
 
 public class ThreadPool {
+    final static Logger logger = Logger.getLogger(ThreadPool.class);
+
     private int nThreads;
     private int threshold;
+    private int upperBound;
     private int timeout;
     private PoolWorker[] threads;
     private BlockingTwoWayQueue queue;
 
-    public ThreadPool(int nThreads, int threshold, int timeout) {
+    public ThreadPool(int nThreads, int threshold, int upperBound, int timeout) {
         this.nThreads = nThreads;
         this.threshold = threshold;
+        this.upperBound = upperBound;
         this.timeout = timeout;
         queue = new BlockingTwoWayQueue(threshold);
         threads = new PoolWorker[nThreads];
@@ -25,7 +33,8 @@ public class ThreadPool {
 
     public void execute(FutureTask<Object> task) {
         synchronized (queue) {
-            if (queue.size() > 2 * threshold) {
+            if (queue.size() > upperBound) {
+                logger.debug("[Reject] Create time: " + new Date());
                 task.cancel(true);
                 return;
             }
@@ -57,6 +66,7 @@ public class ThreadPool {
                     Thread t = new Thread(pair.getFutureTask());
                     t.start();
                     t.join();
+                    logger.debug("[Finish] Create time: " + new Date(pair.getTime() * 1000));
                 } catch (RuntimeException e) {
                     System.out.println("Thread pool is interrupted due to an issue: " + e.getMessage());
                 } catch (Exception e) {
@@ -82,6 +92,7 @@ public class ThreadPool {
                     pair = (Pair) queue.peek();
                     if (System.currentTimeMillis() / 1000L - pair.getTime() > timeout) {
                         queue.poll();
+                        logger.debug("[Drop] Create time: " + new Date(pair.getTime() * 1000));
                         pair.getFutureTask().cancel(true);
                     }
                 }
